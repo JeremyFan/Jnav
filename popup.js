@@ -1,10 +1,29 @@
 window.onload = function() {
+	addPrototypeMethods();
 	ctrlMonitor();
 	setWebsiteData();
+	setBookmarkData();
 
 	bindButtonEvents();
 }
 
+// 增加原型方法
+function addPrototypeMethods() {
+	// 添加样式
+	HTMLElement.prototype.addClass = function(className) {
+		this.className += ' ' + className;
+	}
+	// 删除样式
+	HTMLElement.prototype.removeClass = function(className) {
+		this.className = this.className.replace(' ' + className, '');
+	}
+}
+
+// 增加一个获取元素的方法
+function $(eleId) {
+	eleId = eleId.replace('#', '');
+	return document.getElementById(eleId);
+}
 /// 记录当前ctrl键是否被按下
 var isPressCtrl = false;
 /// 监听ctrl键
@@ -22,12 +41,7 @@ function ctrlMonitor() {
 
 /// 遍历数据，设置网址
 function setWebsiteData() {
-	var content = document.getElementById('website');
-
-	var ul1 = document.getElementById('m-list-1');
-	var ul2 = document.getElementById('m-list-2');
-	var ul3 = document.getElementById('m-list-3');
-
+	var content = $('#website');
 	for (var i in Website) {
 		var website = Website[i];
 		var li = document.createElement('li');
@@ -36,7 +50,7 @@ function setWebsiteData() {
 		a.style.backgroundImage = website.logo == undefined ? 'url(http://developer.chrome.com/static/images/chrome-logo.png)' : website.logo;
 		li.appendChild(a);
 		content.appendChild(li);
-		document.getElementById('m-list-'+website.type).appendChild(li);
+		$('#m-list-'+website.type).appendChild(li);
 
 		// 绑定单击事件
 		li.onclick = (function(url) {
@@ -51,26 +65,89 @@ function setWebsiteData() {
 	}
 }
 
+function setBookmarkData(){
+	var content=$('#bookmark');
+	var bmTree;
+	chrome.bookmarks.getTree(function(data){
+		data[0].children.forEach(function(item){
+			processNode(item);
+		});
+	});
+}
+
+function processNode(item) {
+
+	if (item.children) {
+		var div = document.createElement('div'),
+			p = document.createElement('p'),
+			container=document.createElement('div');
+
+		p.innerHTML = item.title;
+		p.style.color='#000';
+		div.id = 'div_' + item.id;
+		div.appendChild(p);
+		container.id='container_'+item.id;
+		div.appendChild(container);
+		// id=1和id=2时是‘书签栏’和‘其他书签’两个文件夹，直接添加到bookmark
+		// id>2时，添加到所属文件夹
+		var content = (item.id <= 2) ? $('#bookmark') : $('#container_' + item.parentId);
+
+		content.appendChild(div);
+
+		p.onclick = function() {
+			// 如果p已经被展开过，则不用再去加载子节点
+			if(this.expand){
+				if(this.nextSibling.className.indexOf('f-hide')==-1)
+					this.nextSibling.addClass('f-hide');
+				else
+					this.nextSibling.removeClass('f-hide');
+				return;
+			}
+			item.children.forEach(function(child) {
+				processNode(child);
+				p.expand=true;
+			});
+		}
+	}
+	if (item.url) {
+		var div = document.createElement('div');
+		div.innerHTML = item.title;
+		$('#container_' + item.parentId).appendChild(div);
+	}
+}
+
+// function getBookmarksByParentId(obj, parentId) {
+// 	var content = document.createElement('div');
+// 	chrome.bookmarks.getChildren(parentId, function(nodes) {
+// 		debugger;
+// 		nodes.forEach(function(node) {
+// 			var div = document.createElement('div');
+// 			div.nodeId = node.id;
+// 			div.innerHTML = node.title;
+// 			content.appendChild(div);
+// 			div.onclick = function() {
+// 				debugger;
+// 				getBookmarksByParentId(this, this.nodeId);
+// 			}
+// 		})
+// 	});
+// 	obj.appendChild(content);
+// }
+
 function bindButtonEvents(){
 	// 切换导航和书签
-	var btnr=document.getElementById('btn-r');
-	btnr.onclick=function(){
-		// var website=document.getElementById('website');
-		// var bookmark=document.getElementById('bookmark');
-		// website.style.display=website.style.display==''?'none':'';
-		// bookmark.style.display=bookmark.style.display==''?'none':'';
-
-		if(website.style.display==''){
-			website.style.display='none';
-			var title=document.getElementById('title');
-			title.innerHTML='书签';
-			bookmark.style.display='';
+	var website=$('#website'),
+		bookmark=$('#bookmark');
+	$('#btn-r').onclick=function(){
+		if(website.className.indexOf('f-hide')==-1){
+			website.addClass('f-hide');
+			$('#title').innerHTML='书签';
+			bookmark.removeClass('f-hide');
 		}
 		else{
-			bookmark.style.display='none';
-			var title=document.getElementById('title');
-			title.innerHTML='导航';
-			website.style.display='';
+			bookmark.addClass('f-hide');
+			$('#title').innerHTML='导航';
+			website.removeClass('f-hide');
 		}
 	}
 }

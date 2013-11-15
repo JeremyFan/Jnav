@@ -16,3 +16,15 @@ ul span{display:block;width:100%;height:26px;margin-bottom:5px;border-bottom: 1p
 li{list-style:none;display:inline-block;margin:0 10px 10px 0;border-right:1px solid #eee;}
 li:hover{background-color:#f8f8f8;}
 a{color: black;display: inline-block;width: 125px;height: 30px;padding-left: 25px;line-height: 30px;cursor: pointer;background:no-repeat left;background-size:20px 20px;}
+
+
+/*****动画效果*****/
+	.a-fadein{-webkit-animation:0.5s ease-out backwards;}
+	.a-fadeout{-webkit-animation:0.5s ease-in forwards;}
+	/* 淡入 */
+	.a-fadein{-webkit-animation-name:fadein;-moz-animation-name:fadein;-ms-animation-name:fadein;animation-name:fadein;}
+	/* 淡入 */
+	@-webkit-keyframes fadein{
+	    0%{opacity:1;-webkit-transform:translateX(-200px);}
+	    100%{opacity:1;-webkit-transform:translateX(0);}
+	}

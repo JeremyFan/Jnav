@@ -11,6 +11,6 @@
 		},
 
 	"permissions": [
-    	"https://www.baidu.com/"
+    	"bookmarks"
   		]
 }
