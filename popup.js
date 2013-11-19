@@ -30,12 +30,14 @@ var isPressCtrl = false;
 function ctrlMonitor() {
 	var body = document.getElementById('b');
 	body.onkeydown = function(e) {
+		// debugger;
 		if (e.ctrlKey)
 			isPressCtrl = true;
 	}
 	body.onkeyup = function(e) {
+		debugger;
 		if (e.ctrlKey)
-			isPressCtrl = true;
+			isPressCtrl = false;
 	}
 }
 
@@ -75,29 +77,34 @@ function setBookmarkData(){
 	});
 }
 
+
 function processNode(item) {
-
 	if (item.children) {
-		var div = document.createElement('div'),
-			p = document.createElement('p'),
-			container=document.createElement('div');
+		// debugger;
+		var ul        =document.createElement('ul');
+		var container = document.createElement('ul');
+		var a         = document.createElement('a');
+		
+		a.innerHTML      = '[+]'+item.title;
+		ul.id            = 'ul_' + item.id;
+		ul.appendChild(a);
+		container.id     ='ul-container_'+item.id;
+		ul.appendChild(container);
 
-		p.innerHTML = item.title;
-		p.style.color='#000';
-		div.id = 'div_' + item.id;
-		div.appendChild(p);
-		container.id='container_'+item.id;
-		div.appendChild(container);
+		var li=document.createElement('li');
+		li.appendChild(ul);
 		// id=1和id=2时是‘书签栏’和‘其他书签’两个文件夹，直接添加到bookmark
 		// id>2时，添加到所属文件夹
-		var content = (item.id <= 2) ? $('#bookmark') : $('#container_' + item.parentId);
+		var content = (item.id <= 2) ? $('#bm-tree') : $('#ul-container_' + item.parentId);
 
-		content.appendChild(div);
+		content.appendChild(li);
 
-		p.onclick = function() {
+		a.onclick = function() {
+			// 文件夹折叠/展开符号
+			a.innerHTML = a.innerHTML.indexOf('[+]')==0 ? a.innerHTML.replace('[+]', '[ - ]') : a.innerHTML.replace('[ - ]', '[+]');
 			// 如果p已经被展开过，则不用再去加载子节点
-			if(this.expand){
-				if(this.nextSibling.className.indexOf('f-hide')==-1)
+			if (this.expand) {
+				if (this.nextSibling.className.indexOf('f-hide') == -1)
 					this.nextSibling.addClass('f-hide');
 				else
 					this.nextSibling.removeClass('f-hide');
@@ -105,34 +112,29 @@ function processNode(item) {
 			}
 			item.children.forEach(function(child) {
 				processNode(child);
-				p.expand=true;
+				a.expand = true;
 			});
 		}
 	}
 	if (item.url) {
-		var div = document.createElement('div');
-		div.innerHTML = item.title;
-		$('#container_' + item.parentId).appendChild(div);
+		var li = document.createElement('li'),
+			a=document.createElement('a');
+		a.innerHTML = item.title;
+		a.className='bm-atom';
+		a._href=item.url;
+		li.appendChild(a);
+		$('#ul-container_' + item.parentId).appendChild(li);
+
+		li.onclick=function(){
+			// 打开标签页
+			chrome.tabs.create({
+				url:a._href,
+				active: !isPressCtrl
+			});
+		}
 	}
 }
 
-// function getBookmarksByParentId(obj, parentId) {
-// 	var content = document.createElement('div');
-// 	chrome.bookmarks.getChildren(parentId, function(nodes) {
-// 		debugger;
-// 		nodes.forEach(function(node) {
-// 			var div = document.createElement('div');
-// 			div.nodeId = node.id;
-// 			div.innerHTML = node.title;
-// 			content.appendChild(div);
-// 			div.onclick = function() {
-// 				debugger;
-// 				getBookmarksByParentId(this, this.nodeId);
-// 			}
-// 		})
-// 	});
-// 	obj.appendChild(content);
-// }
 
 function bindButtonEvents(){
 	// 切换导航和书签
