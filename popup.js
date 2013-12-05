@@ -35,7 +35,6 @@ function ctrlMonitor() {
 			isPressCtrl = true;
 	}
 	body.onkeyup = function(e) {
-		debugger;
 		if (e.ctrlKey)
 			isPressCtrl = false;
 	}
@@ -49,7 +48,7 @@ function setWebsiteData() {
 		var li = document.createElement('li');
 		var a = document.createElement('a');
 		a.innerHTML = website.text;
-		a.style.backgroundImage = website.logo == undefined ? 'url(http://developer.chrome.com/static/images/chrome-logo.png)' : website.logo;
+		a.style.backgroundImage = website.logo == undefined ? 'url(images/logo_chrome.png)' : website.logo;
 		li.appendChild(a);
 		content.appendChild(li);
 		$('#m-list-'+website.type).appendChild(li);
