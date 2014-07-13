@@ -1,5 +1,5 @@
 window.onload = function() {
-	addPrototypeMethods();
+	// addPrototypeMethods();
 	ctrlMonitor();
 	setWebsiteData();
 	setBookmarkData();
@@ -7,28 +7,13 @@ window.onload = function() {
 	bindButtonEvents();
 }
 
-// 增加原型方法
-function addPrototypeMethods() {
-	// 添加样式
-	HTMLElement.prototype.addClass = function(className) {
-		this.className += ' ' + className;
-	}
-	// 删除样式
-	HTMLElement.prototype.removeClass = function(className) {
-		this.className = this.className.replace(' ' + className, '');
-	}
-}
 
-// 增加一个获取元素的方法
-function $(eleId) {
-	eleId = eleId.replace('#', '');
-	return document.getElementById(eleId);
-}
 /// 记录当前ctrl键是否被按下
 var isPressCtrl = false;
 /// 监听ctrl键
 function ctrlMonitor() {
 	var body = document.getElementById('b');
+	if(!body) return;
 	body.onkeydown = function(e) {
 		// debugger;
 		if (e.ctrlKey)
