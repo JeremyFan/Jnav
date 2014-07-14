@@ -6,11 +6,44 @@
 </head>
 <body>
 	<div class="main">
-		<input type="text" id="name" placeholder="name" />
-		<input type="text" placeholder="http://" />
-		<input type="text" placeholder="type" />
-		<button type="button" id="btnAdd">增加</button>
-		<button type="button" id="btnGet">取值</button>
+		<ul class="nav">
+			<li class="a b active"><a href="#tabSite">网址</a></li>
+			<li><a href="#tabCatalog">分类</a></li>
+		</ul>
+		<div id="tabSite" class="tab active">
+			<table id="tbSite">
+				<thead>
+					<tr>
+						<td>名称</td>
+						<td>地址</td>
+						<td>分类</td>
+					</td>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+			<div class="sitebox">
+				<input type="text" class="name" placeholder="name" />
+				<input type="text" class="url" placeholder="http://" />
+				<input type="text" class="catalog" placeholder="catalog" />
+				<button type="button" id="btnSiteSave">保存</button>
+				<button type="button" id="btnSiteCancel">取消</button>
+			</div>
+		</div>
+		<!-- 分类-->
+		<div id="tabCatalog" class="tab">
+			<ul id="ulCatalog">
+			</ul>
+			<div class="catabox activ">
+				<input type="text" class="name" placeholder="catalog name" />
+				<div class="button-wrap">
+					<button type="button" class="btn-ok" id="btnCataSave">确定</button>
+					<button type="button" id="btnCataCancel">取消</button>
+					<button type="button" style="display:none;" id="btnCataSee">看看</button>
+				</div>
+			</div>
+		</div>
+
 	</div>
 
 	<script type="text/javascript" src="base.js"></script>

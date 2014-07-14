@@ -1,7 +1,157 @@
+html{
+	font: 14px/1 Tahoma,Helvetica,Arial,"\5b8b\4f53",sans-serif;color:#333;
+}
+
+button{
+	width:70px;
+	height:30px;
+	margin-right:10px;
+}
+
+input[type=text]{
+	text-indent: 5px;
+}
+
 .main{
 	width:600px;
 	height:300px;
 	margin:0 auto;
 	padding:20px;
-	background:pink;
+	background:#f6f6f6;
+	border:1px solid #bbb;
+}
+
+.nav{
+	height:30px;
+	margin:0;
+	padding-left:0;
+	list-style-type: none;
+	border-bottom: 1px solid #bbb;
+}
+.nav>li{
+	float:left;
+	width:100px;
+	height:30px;
+	line-height: 30px;
+}
+.nav>li>a{
+	float:left;
+	width:100%;
+	height:100%;
+	text-decoration: none;
+	text-align: center;
+	border:solid #bbb;
+	border-width: 1px 1px 0 0;
+	border-radius: 5px 5px 0 0;
+	color:#333;
+}
+.nav>li.active>a{
+	background-color:#fff;
+}
+/*.nav>li:first-child>a{
+	border-left-width: 1px;
+}*/
+.nav>li:first-child>a,
+.nav>li.active>a{
+	border-left-width: 1px;
+}
+
+.tab{
+	display:none;
+	position: relative;
+	height:250px;
+	padding:10px;
+	border:1px solid #bbb;
+	border-top:none;
+	background-color: #fff;
+	overflow: auto;
+}
+
+.tab.active{
+	display:block;
+}
+
+.sitebox,.catabox{
+	display:none;
+}
+.sitebox.active,
+.catabox.active{
+	display:block;
+}
+
+.catabox{
+	position: absolute;
+	width:200px;
+	height:90px;
+	padding:15px;
+	border:1px solid #bbb;
+	background-color:#fff;
+	text-align: center;
+}
+
+.catabox .name{
+	width:160px;
+	height:25px;
+}
+
+.catabox .button-wrap{
+	margin-top:20px;
+}
+
+.btn-ok{
+	background-color: #6aa8d7;
+	border:1px solid #3a78a5;
+}
+
+.btn-ok:hover {
+	background-color: #5f97c1;
+	border-color: #3a78a5;
+}
+
+.btn-ok:active {
+	border-color: #fff;
+}
+
+
+#tbSite{
+	width:500px;
+	border-spacing: 0;
+	border-collapse: collapse;
+	border:1px solid #bbb;
+}
+
+#tbSite tr td{
+	height:30px;
+	text-align: center;
+}
+
+#tbSite>thead>tr>td{
+	background-color: #87cefa;
+}
+
+#tbSite>tbody>tr:nth-child(2n+1)>td{
+	background-color: #fff;
+}
+
+#tbSite>tbody>tr:nth-child(2n)>td{
+	background-color: #f0f8ff;
+}
+
+
+#ulCatalog{
+	list-style-type: none;
+	padding-left: 0;
+}
+
+#ulCatalog>li{
+	float:left;
+	width:100px;
+	padding-left:20px;
+	height:30px;
+	line-height:30px;
+	cursor: pointer;
+}
+
+#ulCatalog>li:hover{
+	background-color:#f6f6f6;
 }

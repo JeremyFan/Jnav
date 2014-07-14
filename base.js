@@ -2,11 +2,21 @@
 (function addPrototypeMethods() {
 	// 添加样式
 	HTMLElement.prototype.addClass = function(className) {
-		this.className += ' ' + className;
+		if(!this.classList.length){
+			this.className+=className;
+		}
+		else{
+			this.className += ' ' + className;
+		}
 	}
 	// 删除样式
 	HTMLElement.prototype.removeClass = function(className) {
-		this.className = this.className.replace(' ' + className, '');
+		if(this.classList[0]===className){
+			this.className = this.className.replace(className, '');
+		}
+		else{
+			this.className = this.className.replace(' ' + className, '');
+		}
 	}
 })();
 
