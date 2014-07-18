@@ -1,11 +1,16 @@
 html{
+	height:100%;
 	font: 14px/1 Tahoma,Helvetica,Arial,"\5b8b\4f53",sans-serif;color:#333;
+}
+body{
+	height:100%;
+	margin:0;
 }
 
 button{
 	width:70px;
 	height:30px;
-	margin-right:10px;
+	margin:0 5px;
 }
 
 input[type=text]{
@@ -14,7 +19,7 @@ input[type=text]{
 
 .main{
 	width:600px;
-	height:300px;
+	min-height:300px;
 	margin:0 auto;
 	padding:20px;
 	background:#f6f6f6;
@@ -77,21 +82,47 @@ input[type=text]{
 .sitebox.active,
 .catabox.active{
 	display:block;
+	/*-webkit-transition: all 5s;*/
 }
+
+/*.catabox.active.show{
+	width:250px;
+	height:140px;
+}*/
 
 .catabox{
 	position: absolute;
-	width:200px;
-	height:90px;
+	z-index: 1001;
+	width:250px;
+	height:140px;
 	padding:15px;
 	border:1px solid #bbb;
 	background-color:#fff;
 	text-align: center;
 }
+.catabox .title{
+	margin:0 0 25px;
+	text-align: left;
+}
+
+.catabox .close{
+	position: absolute;
+	top:5px;
+	right:5px;
+	width:25px;
+	height:25px;
+	line-height: 25px;
+	text-align: center;
+	cursor: pointer;
+	color:#999;
+}
+.catabox .close:hover{
+	color:#333;
+}
 
 .catabox .name{
-	width:160px;
-	height:25px;
+	width:200px;
+	height:30px;
 }
 
 .catabox .button-wrap{
@@ -115,6 +146,7 @@ input[type=text]{
 
 #tbSite{
 	width:500px;
+	margin-top:15px;
 	border-spacing: 0;
 	border-collapse: collapse;
 	border:1px solid #bbb;
@@ -145,13 +177,28 @@ input[type=text]{
 
 #ulCatalog>li{
 	float:left;
-	width:100px;
-	padding-left:20px;
+	min-width:90px;
 	height:30px;
+	margin-bottom: 10px;
+	padding-left:20px;
+	padding-right:10px;
 	line-height:30px;
+	border-right:1px solid #ddd;
 	cursor: pointer;
 }
 
 #ulCatalog>li:hover{
 	background-color:#f6f6f6;
+}
+
+/*遮掩层*/
+#mask{
+	position: absolute;
+	top:0;
+	left:0;
+	z-index:1000;
+	width:100%;
+	height:1000px;
+	background-color:#000;
+	opacity: 0.2;
 }
