@@ -22,7 +22,7 @@ input[type=text]{
 	min-height:300px;
 	margin:0 auto;
 	padding:20px;
-	background:#f6f6f6;
+	background-color:#f6f6f6;
 	border:1px solid #bbb;
 }
 
@@ -89,6 +89,16 @@ input[type=text]{
 	width:250px;
 	height:140px;
 }*/
+.sitebox{
+	position: absolute;
+	z-index: 1001;
+	width:250px;
+	height:230px;
+	padding:15px;
+	border:1px solid #bbb;
+	background-color:#fff;
+	text-align: center;
+}
 
 .catabox{
 	position: absolute;
@@ -100,11 +110,14 @@ input[type=text]{
 	background-color:#fff;
 	text-align: center;
 }
+
+.sitebox .title,
 .catabox .title{
 	margin:0 0 25px;
 	text-align: left;
 }
 
+.sitebox .close,
 .catabox .close{
 	position: absolute;
 	top:5px;
@@ -116,15 +129,26 @@ input[type=text]{
 	cursor: pointer;
 	color:#999;
 }
+.sitebox .close:hover,
 .catabox .close:hover{
 	color:#333;
 }
 
+.sitebox .name,
+.sitebox .url,
+.sitebox .catalog,
 .catabox .name{
 	width:200px;
 	height:30px;
 }
 
+.sitebox .name,
+.sitebox .url,
+.sitebox .catalog{
+	margin:5px 0;
+}
+
+.sitebox .button-wrap,
 .catabox .button-wrap{
 	margin-top:20px;
 }
@@ -158,7 +182,11 @@ input[type=text]{
 }
 
 #tbSite>thead>tr>td{
-	background-color: #87cefa;
+	background-color: #ddd;
+}
+
+#tbSite>tbody>tr{
+	cursor:pointer;
 }
 
 #tbSite>tbody>tr:nth-child(2n+1)>td{
@@ -166,7 +194,7 @@ input[type=text]{
 }
 
 #tbSite>tbody>tr:nth-child(2n)>td{
-	background-color: #f0f8ff;
+	background-color: #f6f6f6;
 }
 
 

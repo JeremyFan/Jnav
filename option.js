@@ -5,58 +5,15 @@ window.onload=function(){
 }
 
 function initButtonEvent(){
-	var btnCataCreate=document.querySelector('#btnCataCreate');
+	var btnSiteCreate=document.querySelector('#btnSiteCreate'),
+		btnCataCreate=document.querySelector('#btnCataCreate');
+	btnSiteCreate.onclick=function(){
+		showSitebox(this);
+	}
 	btnCataCreate.onclick=function(){
 		showCatabox(this);
 	}
 }
-// 	var $btnSiteSave=$('#btnSiteSave'),
-// 		$btnSiteCancel=$('#btnSiteCancel'),
-// 		$btnCataSave=$('#btnCataSave'),
-// 		$btnCataCancel=$('#btnCataCancel');
-
-// 	$btnSiteSave.onclick=function(){
-// 		var name=document.querySelector('.sitebox .name').value,
-// 			url=document.querySelector('.sitebox .url').value,
-// 			catalog=document.querySelector('.sitebox .catalog').value;
-// 			obj={};
-
-// 		obj[name]={
-// 			name:name,
-// 			url:url,
-// 			catalog:catalog,
-// 			type:'site'
-			
-// 		}
-// 		chrome.storage.sync.set(obj,function(){
-// 			alert('set okay.')
-// 		})
-// 	}
-
-// 	$btnCataSave.onclick=function(){
-// 		var name=document.querySelector('.catabox .name').value,
-// 			obj={};
-// 			obj[name]={
-// 				name:name,
-// 				type:'cata'
-// 			};
-
-// 		chrome.storage.sync.set(obj,function(){
-// 			alert('set okay');
-// 		})
-// 	}
-
-// 	$btnCataCancel.onclick=function(){
-// 		var box=document.querySelector('.catabox');
-// 		box.removeClass('active');
-// 	}
-
-// 	$('#btnCataSee').onclick=function(){
-// 		chrome.storage.sync.get(null,function(result){
-// 			debugger
-// 		})
-// 	}
-// }
 
 function initNav(){
 	var	$nav=document.querySelectorAll('.main .nav'),
@@ -105,7 +62,14 @@ function initData(){
 		for(i=0;i<siteArr.length;i++){
 			item=siteArr[i];
 			tr=document.createElement('tr');
+			tr.id=item.id;
+			tr.setAttribute('data-name',item.name);
+			tr.setAttribute('data-url',item.url);
+			tr.setAttribute('data-catalog',item.catalog);
 			tr.innerHTML='<td>'+item.name+'</td><td>'+item.url+'</td><td>'+item.catalog+'</td>';
+			tr.onclick=function(){
+				showSitebox(this);
+			}
 			siteTableBody.appendChild(tr);
 		}
 
@@ -113,6 +77,7 @@ function initData(){
 			item=cataArr[i];
 			li=document.createElement('li');
 			li.id=item.id;
+			li.setAttribute('data-name',item.name);
 			li.innerHTML=item.name;
 			li.onclick=function(){
 				showCatabox(this);
@@ -124,7 +89,93 @@ function initData(){
 
 /// 显示sitebox
 function showSitebox(ele){
-	
+		// TODO: 更好的isCreate判断方法
+	var isCreate=ele.type==='button',
+		body=document.body,
+		mask=document.createElement('div'),
+		bodyHeight=document.documentElement.scrollHeight,
+		bodyWidth=document.documentElement.scrollWidth,
+		tabSite=document.querySelector('#tabSite'),
+		sitebox=document.createElement('div'),
+		btnSiteSave,btnSiteCancel,btnClose;
+
+	mask.id='mask';
+	body.appendChild(mask);
+	mask.style.height=bodyHeight+'px';
+	mask.style.width=bodyWidth+'px';
+
+	sitebox.className='sitebox active';
+	sitebox.innerHTML=
+				'<h3 class="title">'+(isCreate?'新建地址':'编辑地址')+'</h3>'+
+				'<span class="close">x</span>'+
+				'名称：<input type="text" class="name" placeholder="site name"'+(isCreate?'':'value="'+ele.attributes['data-name'].value+'"')+'/>'+
+				'地址：<input type="text" class="url" placeholder="http://"'+(isCreate?'':'value="'+ele.attributes['data-url'].value+'"')+' />'+
+				'分类：<input type="text" class="catalog" placeholder="catalog"'+(isCreate?'':'value="'+ele.attributes['data-catalog'].value+'"')+' />'+
+				'<div class="button-wrap">'+
+					'<button type="button" class="btn-ok" id="btnSiteSave">保存</button>'+
+					'<button type="button" id="btnSiteCancel">取消</button>'+
+				'</div>';
+	body.appendChild(sitebox);
+	sitebox.style.top=getElementOffsetTop(ele)+'px';
+	sitebox.style.left=getElementOffsetLeft(ele)+'px';
+
+	btnSiteSave=document.querySelector('.sitebox #btnSiteSave');
+	btnSiteCancel=document.querySelector('.sitebox #btnSiteCancel');
+	btnClose=document.querySelector('.sitebox .close');
+
+	// 保存
+	btnSiteSave.onclick=function(){
+		var name=document.querySelector('.sitebox .name').value,
+			url=document.querySelector('.sitebox .url').value,
+			catalog=document.querySelector('.sitebox .catalog').value,
+			id,
+			obj={};
+		// TODO: catalog可以为空，catalog不填算未分类
+		if(name===''||url===''||catalog===''){
+			alert('请输入catalog name');
+			return;
+		}	
+
+		// 新建保存
+		if(isCreate){
+			obj[name]={
+				id:name,
+				name:name,
+				url:url,
+				catalog:catalog,
+				type:'site'
+			}
+			chrome.storage.sync.set(obj,function(){
+				// alert('set okay');
+				body.removeChild(mask);
+				body.removeChild(sitebox);
+			})
+
+		}
+		// 编辑保存
+		else{
+			id=ele.id;
+			obj[id]={
+				id:id,
+				name:name,
+				url:url,
+				catalog:catalog,
+				type:'site'
+			};
+
+			chrome.storage.sync.set(obj,function(){
+				// alert('set okay');
+				body.removeChild(mask);
+				body.removeChild(sitebox);
+			})
+		}
+	}
+	// 关闭编辑框
+	btnSiteCancel.onclick=btnClose.onclick=mask.onclick=function(){
+		body.removeChild(mask);
+		body.removeChild(sitebox);
+	}
+
 }
 
 /// 显示catabox
@@ -147,7 +198,7 @@ function showCatabox(ele){
 	catabox.innerHTML=
 				'<h3 class="title">'+(isCreate?'新建分类':'编辑分类')+'</h3>'+
 				'<span class="close">x</span>'+
-				'<input type="text" class="name" placeholder="catalog name" '+(isCreate?'':'value="'+ele.innerHTML+'"')+'/>'+
+				'<input type="text" class="name" placeholder="catalog name"'+(isCreate?'':'value="'+ele.attributes['data-name'].value+'"')+'/>'+
 				'<div class="button-wrap">'+
 					'<button type="button" class="btn-ok" id="btnCataSave">确定</button>'+
 					'<button type="button" id="btnCataCancel">取消</button>'+
@@ -204,7 +255,6 @@ function showCatabox(ele){
 				ele.innerHTML=name;
 			})
 		}
-
 	}
 
 	// 关闭编辑框
