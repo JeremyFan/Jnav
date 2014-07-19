@@ -8,10 +8,10 @@ function initButtonEvent(){
 	var btnSiteCreate=document.querySelector('#btnSiteCreate'),
 		btnCataCreate=document.querySelector('#btnCataCreate');
 	btnSiteCreate.onclick=function(){
-		showSitebox(this);
+		showBox(this, BoxType.Sitebox);
 	}
 	btnCataCreate.onclick=function(){
-		showCatabox(this);
+		showBox(this, BoxType.Catabox);
 	}
 }
 
@@ -68,7 +68,7 @@ function initData(){
 			tr.setAttribute('data-catalog',item.catalog);
 			tr.innerHTML='<td>'+item.name+'</td><td>'+item.url+'</td><td>'+item.catalog+'</td>';
 			tr.onclick=function(){
-				showSitebox(this);
+				showBox(this, BoxType.Sitebox);
 			}
 			siteTableBody.appendChild(tr);
 		}
@@ -80,7 +80,7 @@ function initData(){
 			li.setAttribute('data-name',item.name);
 			li.innerHTML=item.name;
 			li.onclick=function(){
-				showCatabox(this);
+				showBox(this, BoxType.Catabox);
 			}
 			ulCatalog.appendChild(li);
 		}
@@ -88,40 +88,77 @@ function initData(){
 }
 
 /// 显示sitebox
-function showSitebox(ele){
-		// TODO: 更好的isCreate判断方法
-	var isCreate=ele.type==='button',
-		body=document.body,
-		mask=document.createElement('div'),
+// function showSitebox(ele){
+// 		// TODO: 更好的isCreate判断方法
+// 	var isCreate=ele.type==='button',
+// 		body=document.body,
+// 		mask=document.createElement('div'),
+// 		bodyHeight=document.documentElement.scrollHeight,
+// 		bodyWidth=document.documentElement.scrollWidth,
+// 		tabSite=document.querySelector('#tabSite'),
+// 		sitebox=createSitebox(body, ele, isCreate);
+
+// 	mask.id='mask';
+// 	body.appendChild(mask);
+// 	mask.style.height=bodyHeight+'px';
+// 	mask.style.width=bodyWidth+'px';
+
+// 	initSiteEvent(mask,sitebox,isCreate);
+// }
+
+/// 显示catabox
+// function showCatabox(ele){
+// 	var isCreate= ele.type==='button',
+// 	 	body=document.body,
+// 	    mask=document.createElement('div'),
+// 		bodyHeight=document.documentElement.scrollHeight,
+// 		bodyWidth=document.documentElement.scrollWidth,
+// 		tabCatalog=document.querySelector('#tabCatalog'),
+// 		catabox=createCatabox(body, ele, isCreate);
+
+// 	mask.id='mask';
+// 	body.appendChild(mask);
+// 	mask.style.height=bodyHeight+'px';
+// 	mask.style.width=bodyWidth+'px';
+
+// 	initCataEvent(mask,catabox,isCreate);
+// }
+
+function showBox(ele, boxType){
+	var isCreate= ele.type==='button',
+	 	body=document.body,
+	    mask=document.createElement('div'),
 		bodyHeight=document.documentElement.scrollHeight,
 		bodyWidth=document.documentElement.scrollWidth,
-		tabSite=document.querySelector('#tabSite'),
-		sitebox=document.createElement('div'),
-		btnSiteSave,btnSiteCancel,btnClose;
+		tabCatalog=document.querySelector('#tabCatalog'),
+		box;
 
 	mask.id='mask';
 	body.appendChild(mask);
 	mask.style.height=bodyHeight+'px';
 	mask.style.width=bodyWidth+'px';
 
-	sitebox.className='sitebox active';
-	sitebox.innerHTML=
-				'<h3 class="title">'+(isCreate?'新建地址':'编辑地址')+'</h3>'+
-				'<span class="close">x</span>'+
-				'名称：<input type="text" class="name" placeholder="site name"'+(isCreate?'':'value="'+ele.attributes['data-name'].value+'"')+'/>'+
-				'地址：<input type="text" class="url" placeholder="http://"'+(isCreate?'':'value="'+ele.attributes['data-url'].value+'"')+' />'+
-				'分类：<input type="text" class="catalog" placeholder="catalog"'+(isCreate?'':'value="'+ele.attributes['data-catalog'].value+'"')+' />'+
-				'<div class="button-wrap">'+
-					'<button type="button" class="btn-ok" id="btnSiteSave">保存</button>'+
-					'<button type="button" id="btnSiteCancel">取消</button>'+
-				'</div>';
-	body.appendChild(sitebox);
-	sitebox.style.top=getElementOffsetTop(ele)+'px';
-	sitebox.style.left=getElementOffsetLeft(ele)+'px';
+	if(boxType===BoxType.Sitebox){
+		box=createSitebox(body, ele, isCreate);
+		initSiteEvent(body, mask, box, isCreate);
+	}
+	else if(boxType===BoxType.Catabox){
+		box=createCatabox(body, ele, isCreate);
+		initCataEvent(body, mask, box, isCreate);
+	}
+}
 
-	btnSiteSave=document.querySelector('.sitebox #btnSiteSave');
-	btnSiteCancel=document.querySelector('.sitebox #btnSiteCancel');
-	btnClose=document.querySelector('.sitebox .close');
+/// 编辑框类型
+var BoxType=
+	{
+		Sitebox:1,
+		Catabox:2
+	}
+
+function initSiteEvent(body, mask,sitebox,isCreate){
+	var btnSiteSave=document.querySelector('.sitebox #btnSiteSave');
+		btnSiteCancel=document.querySelector('.sitebox #btnSiteCancel');
+		btnClose=document.querySelector('.sitebox .close');
 
 	// 保存
 	btnSiteSave.onclick=function(){
@@ -175,44 +212,12 @@ function showSitebox(ele){
 		body.removeChild(mask);
 		body.removeChild(sitebox);
 	}
-
 }
 
-/// 显示catabox
-function showCatabox(ele){
-	var isCreate= ele.type==='button',
-	 	body=document.body,
-	    mask=document.createElement('div'),
-		bodyHeight=document.documentElement.scrollHeight,
-		bodyWidth=document.documentElement.scrollWidth,
-		tabCatalog=document.querySelector('#tabCatalog'),
-		catabox=document.createElement('div'),
-		btnCataSave,btnCataCancel,btnClose;
-
-	mask.id='mask';
-	body.appendChild(mask);
-	mask.style.height=bodyHeight+'px';
-	mask.style.width=bodyWidth+'px';
-
-	catabox.className='catabox active';
-	catabox.innerHTML=
-				'<h3 class="title">'+(isCreate?'新建分类':'编辑分类')+'</h3>'+
-				'<span class="close">x</span>'+
-				'<input type="text" class="name" placeholder="catalog name"'+(isCreate?'':'value="'+ele.attributes['data-name'].value+'"')+'/>'+
-				'<div class="button-wrap">'+
-					'<button type="button" class="btn-ok" id="btnCataSave">确定</button>'+
-					'<button type="button" id="btnCataCancel">取消</button>'+
-					'<button type="button" style="display:none;" id="btnCataSee">看看</button>'+
-				'</div>';
-	body.appendChild(catabox);
-
-	catabox.style.top=getElementOffsetTop(ele)+'px';
-	catabox.style.left=getElementOffsetLeft(ele)+'px';
-	// catabox.addClass('show');
-
-	btnCataSave=document.querySelector('.catabox #btnCataSave');
-	btnCataCancel=document.querySelector('.catabox #btnCataCancel');
-	btnClose=document.querySelector('.catabox .close');
+function initCataEvent(body, mask,catabox,isCreate){
+	var btnCataSave=document.querySelector('.catabox #btnCataSave');
+		btnCataCancel=document.querySelector('.catabox #btnCataCancel');
+		btnClose=document.querySelector('.catabox .close');
 
 	// 保存
 	btnCataSave.onclick=function(){
@@ -262,6 +267,47 @@ function showCatabox(ele){
 		body.removeChild(mask);
 		body.removeChild(catabox);
 	}
+}
+
+function createSitebox(container, ele, isCreate){
+	var sitebox=document.createElement('div');
+	sitebox.className='sitebox active';
+	sitebox.innerHTML=
+				'<h3 class="title">'+(isCreate?'新建地址':'编辑地址')+'</h3>'+
+				'<span class="close">x</span>'+
+				'名称：<input type="text" class="name" placeholder="site name"'+(isCreate?'':'value="'+ele.attributes['data-name'].value+'"')+'/>'+
+				'地址：<input type="text" class="url" placeholder="http://"'+(isCreate?'':'value="'+ele.attributes['data-url'].value+'"')+' />'+
+				'分类：<input type="text" class="catalog" placeholder="catalog"'+(isCreate?'':'value="'+ele.attributes['data-catalog'].value+'"')+' />'+
+				'<div class="button-wrap">'+
+					'<button type="button" class="btn-ok" id="btnSiteSave">保存</button>'+
+					'<button type="button" id="btnSiteCancel">取消</button>'+
+				'</div>';
+	container.appendChild(sitebox);
+
+	sitebox.style.top=getElementOffsetTop(ele)+'px';
+	sitebox.style.left=getElementOffsetLeft(ele)+'px';
+
+	return sitebox;
+}
+
+function createCatabox(container, ele, isCreate){
+	var catabox=document.createElement('div');
+	catabox.className='catabox active';
+	catabox.innerHTML=
+				'<h3 class="title">'+(isCreate?'新建分类':'编辑分类')+'</h3>'+
+				'<span class="close">x</span>'+
+				'<input type="text" class="name" placeholder="catalog name"'+(isCreate?'':'value="'+ele.attributes['data-name'].value+'"')+'/>'+
+				'<div class="button-wrap">'+
+					'<button type="button" class="btn-ok" id="btnCataSave">确定</button>'+
+					'<button type="button" id="btnCataCancel">取消</button>'+
+					'<button type="button" style="display:none;" id="btnCataSee">看看</button>'+
+				'</div>';
+	container.appendChild(catabox);
+
+	catabox.style.top=getElementOffsetTop(ele)+'px';
+	catabox.style.left=getElementOffsetLeft(ele)+'px';
+
+	return catabox;
 }
 
 // 获取元素Offset Top
