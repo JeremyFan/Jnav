@@ -4,6 +4,7 @@ window.onload=function(){
 	initData();
 }
 
+/// 初始化页面按钮事件
 function initButtonEvent(){
 	var btnSiteCreate=document.querySelector('#btnSiteCreate'),
 		btnCataCreate=document.querySelector('#btnCataCreate');
@@ -15,6 +16,7 @@ function initButtonEvent(){
 	}
 }
 
+/// 初始化导航栏
 function initNav(){
 	var	$nav=document.querySelectorAll('.main .nav'),
 		$lis=document.querySelectorAll('.main .nav li'),
@@ -38,6 +40,7 @@ function initNav(){
 	}
 }
 
+/// 初始化数据
 function initData(){
 	var siteTableBody=document.querySelector('#tbSite tbody'),
 		ulCatalog=document.querySelector('#ulCatalog');
@@ -87,43 +90,7 @@ function initData(){
 	})
 }
 
-/// 显示sitebox
-// function showSitebox(ele){
-// 		// TODO: 更好的isCreate判断方法
-// 	var isCreate=ele.type==='button',
-// 		body=document.body,
-// 		mask=document.createElement('div'),
-// 		bodyHeight=document.documentElement.scrollHeight,
-// 		bodyWidth=document.documentElement.scrollWidth,
-// 		tabSite=document.querySelector('#tabSite'),
-// 		sitebox=createSitebox(body, ele, isCreate);
-
-// 	mask.id='mask';
-// 	body.appendChild(mask);
-// 	mask.style.height=bodyHeight+'px';
-// 	mask.style.width=bodyWidth+'px';
-
-// 	initSiteEvent(mask,sitebox,isCreate);
-// }
-
-/// 显示catabox
-// function showCatabox(ele){
-// 	var isCreate= ele.type==='button',
-// 	 	body=document.body,
-// 	    mask=document.createElement('div'),
-// 		bodyHeight=document.documentElement.scrollHeight,
-// 		bodyWidth=document.documentElement.scrollWidth,
-// 		tabCatalog=document.querySelector('#tabCatalog'),
-// 		catabox=createCatabox(body, ele, isCreate);
-
-// 	mask.id='mask';
-// 	body.appendChild(mask);
-// 	mask.style.height=bodyHeight+'px';
-// 	mask.style.width=bodyWidth+'px';
-
-// 	initCataEvent(mask,catabox,isCreate);
-// }
-
+/// 显示编辑框
 function showBox(ele, boxType){
 	var isCreate= ele.type==='button',
 	 	body=document.body,
@@ -155,6 +122,7 @@ var BoxType=
 		Catabox:2
 	}
 
+/// 初始化地址编辑框按钮事件
 function initSiteEvent(body, mask,sitebox,isCreate){
 	var btnSiteSave=document.querySelector('.sitebox #btnSiteSave');
 		btnSiteCancel=document.querySelector('.sitebox #btnSiteCancel');
@@ -214,6 +182,7 @@ function initSiteEvent(body, mask,sitebox,isCreate){
 	}
 }
 
+/// 初始化分类编辑框按钮事件
 function initCataEvent(body, mask,catabox,isCreate){
 	var btnCataSave=document.querySelector('.catabox #btnCataSave');
 		btnCataCancel=document.querySelector('.catabox #btnCataCancel');
@@ -269,6 +238,7 @@ function initCataEvent(body, mask,catabox,isCreate){
 	}
 }
 
+/// 创建地址编辑框
 function createSitebox(container, ele, isCreate){
 	var sitebox=document.createElement('div');
 	sitebox.className='sitebox active';
@@ -290,6 +260,7 @@ function createSitebox(container, ele, isCreate){
 	return sitebox;
 }
 
+/// 创建分类编辑框
 function createCatabox(container, ele, isCreate){
 	var catabox=document.createElement('div');
 	catabox.className='catabox active';
