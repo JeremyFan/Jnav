@@ -27,28 +27,57 @@ function ctrlMonitor() {
 
 /// 遍历数据，设置网址
 function setWebsiteData() {
-	var content = $('#website');
-	for (var i in Website) {
-		var website = Website[i];
-		var li = document.createElement('li');
-		var a = document.createElement('a');
-		a.innerHTML = website.text;
-		a.style.backgroundImage = website.logo == undefined ? 'url(images/logo_chrome.png)' : website.logo;
-		li.appendChild(a);
-		content.appendChild(li);
-		$('#m-list-'+website.type).appendChild(li);
+	chrome.storage.sync.get(function(result){
+		var content = $('#website'),
+		 	cataArr=[],
+			siteArr=[],
+			ul, span,
+			li, a,
+			item,
+			i;
 
-		// 绑定单击事件
-		li.onclick = (function(url) {
-			return function() {
-				chrome.tabs.create({
-					url: url,
-					// isPressCtrl控制打开的tab是否为活动页
-					active: !isPressCtrl
-				});
+		for(i in result){
+			item=result[i];
+			if(item.type==='cata'){
+				cataArr.push(item);
 			}
-		})(website.url);
-	}
+			else if(item.type==='site'){
+				siteArr.push(item);
+			}
+		}
+
+		for(i=0;i<cataArr.length;i++){
+			item=cataArr[i];
+			ul=document.createElement('ul');
+			ul.id=item.id;
+			span=document.createElement('span');
+			span.innerHTML=item.name;
+			ul.appendChild(span);
+			content.appendChild(ul);
+		}
+
+		for(i=0;i<siteArr.length;i++){
+			item=siteArr[i];
+			ul=document.querySelector('#'+item.catalog);
+			li=document.createElement('li');
+			a=document.createElement('a');
+			a.innerHTML=item.name;
+			a.style.backgroundImage='url('+item.url+'/favicon.ico)';
+			li.appendChild(a);
+			ul.appendChild(li);
+
+			li.onclick=(function(url){
+				return function(){
+					chrome.tabs.create({
+						url:url,
+						// isPressCtrl控制打开的tab是否为活动页
+						active: !isPressCtrl
+					})
+				}
+			})(item.url);
+		}
+
+	})
 }
 
 function setBookmarkData(){
@@ -60,7 +89,6 @@ function setBookmarkData(){
 		});
 	});
 }
-
 
 function processNode(item) {
 	if (item.children) {
@@ -119,7 +147,6 @@ function processNode(item) {
 	}
 }
 
-
 function bindButtonEvents(){
 	// 切换导航和书签
 	var website=$('#website'),
@@ -128,11 +155,13 @@ function bindButtonEvents(){
 		if(website.className.indexOf('f-hide')==-1){
 			website.addClass('f-hide');
 			$('#title').innerHTML='书签';
+			bookmark.addClass('a-fadein');
 			bookmark.removeClass('f-hide');
 		}
 		else{
 			bookmark.addClass('f-hide');
 			$('#title').innerHTML='导航';
+			website.addClass('a-fadein');
 			website.removeClass('f-hide');
 		}
 	}

@@ -132,14 +132,16 @@ function initSiteEvent(body, mask, sitebox, ele, isCreate){
 		btnClose=document.querySelector('.sitebox .close');
 
 	// 删除
-	btnDelete.onclick=function(){
-		if(confirm('确定吗？')){
-			chrome.storage.sync.remove(ele.id,function(){
-				body.removeChild(mask);
-				body.removeChild(sitebox);
-				initData();
-			})
-		}
+	if(!isCreate){
+		btnDelete.onclick=function(){
+			if(confirm('确定吗？')){
+				chrome.storage.sync.remove(ele.id,function(){
+					body.removeChild(mask);
+					body.removeChild(sitebox);
+					initData();
+				})
+			}
+		}	
 	}
 
 	// 保存
@@ -204,15 +206,18 @@ function initCataEvent(body, mask, catabox, ele, isCreate){
 		btnClose=document.querySelector('.catabox .close');
 
 	// 删除
-	btnDelete.onclick=function(){
-		if(confirm('确定吗？')){
-			chrome.storage.sync.remove(ele.id,function(){
-				body.removeChild(mask);
-				body.removeChild(catabox);
-				initData();
-			})
+	if(!isCreate){
+		btnDelete.onclick=function(){
+			if(confirm('确定吗？')){
+				chrome.storage.sync.remove(ele.id,function(){
+					body.removeChild(mask);
+					body.removeChild(catabox);
+					initData();
+				})
+			}
 		}
 	}
+
 
 	// 保存
 	btnCataSave.onclick=function(){

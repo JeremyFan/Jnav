@@ -8,9 +8,9 @@ body{margin:10px;width: 500px;height: 320px;}
 .g-head .u-btn{float:right;width:50px;cursor:pointer;}
 .g-head .u-btn:hover{color:#2F79E7;}
 .g-main{margin:0px;}
-.g-main .m-ft{height:50px;text-align: center;color:black;}
+/*.g-main .m-ft{height:50px;text-align: center;color:black;}
 .g-main .m-ft span{line-height: 50px;cursor:pointer;}
-.g-main .m-ft span:hover{color: #2F79E7;}
+.g-main .m-ft span:hover{color: #2F79E7;}*/
 
 #website ul{padding:0;margin:0 0 10px;}
 #website ul span{display:block;width:100%;height:26px;margin-bottom:5px;border-bottom: 1px solid #eee;}
