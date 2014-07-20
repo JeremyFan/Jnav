@@ -64,7 +64,8 @@ input[type=text]{
 .tab{
 	display:none;
 	position: relative;
-	height:250px;
+	min-height:250px;
+	max-height:500px;
 	padding:10px;
 	border:1px solid #bbb;
 	border-top:none;
@@ -117,6 +118,22 @@ input[type=text]{
 	text-align: left;
 }
 
+.sitebox .btn-del,
+.catabox .btn-del{
+	position: absolute;
+	top:18px;
+	left:90px;
+	font-size:0.9em;
+	color:#36f;
+	cursor:pointer;
+	text-decoration: underline;
+}
+
+.sitebox .btn-del:hover,
+.catabox .btn-del:hover{
+	color:#39f;
+}
+
 .sitebox .close,
 .catabox .close{
 	position: absolute;
@@ -167,10 +184,9 @@ input[type=text]{
 	border-color: #fff;
 }
 
-
 #tbSite{
 	width:500px;
-	margin-top:15px;
+	margin-top:10px;
 	border-spacing: 0;
 	border-collapse: collapse;
 	border:1px solid #bbb;

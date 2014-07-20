@@ -62,6 +62,7 @@ function initData(){
 			}
 		}
 		
+		siteTableBody.innerHTML='';
 		for(i=0;i<siteArr.length;i++){
 			item=siteArr[i];
 			tr=document.createElement('tr');
@@ -76,6 +77,7 @@ function initData(){
 			siteTableBody.appendChild(tr);
 		}
 
+		ulCatalog.innerHTML='';
 		for(i=0;i<cataArr.length;i++){
 			item=cataArr[i];
 			li=document.createElement('li');
@@ -107,11 +109,11 @@ function showBox(ele, boxType){
 
 	if(boxType===BoxType.Sitebox){
 		box=createSitebox(body, ele, isCreate);
-		initSiteEvent(body, mask, box, isCreate);
+		initSiteEvent(body, mask, box, ele, isCreate);
 	}
 	else if(boxType===BoxType.Catabox){
 		box=createCatabox(body, ele, isCreate);
-		initCataEvent(body, mask, box, isCreate);
+		initCataEvent(body, mask, box, ele, isCreate);
 	}
 }
 
@@ -123,10 +125,22 @@ var BoxType=
 	}
 
 /// 初始化地址编辑框按钮事件
-function initSiteEvent(body, mask,sitebox,isCreate){
-	var btnSiteSave=document.querySelector('.sitebox #btnSiteSave');
-		btnSiteCancel=document.querySelector('.sitebox #btnSiteCancel');
+function initSiteEvent(body, mask, sitebox, ele, isCreate){
+	var btnDelete=document.querySelector('.sitebox .btn-del'),
+		btnSiteSave=document.querySelector('.sitebox #btnSiteSave'),
+		btnSiteCancel=document.querySelector('.sitebox #btnSiteCancel'),
 		btnClose=document.querySelector('.sitebox .close');
+
+	// 删除
+	btnDelete.onclick=function(){
+		if(confirm('确定吗？')){
+			chrome.storage.sync.remove(ele.id,function(){
+				body.removeChild(mask);
+				body.removeChild(sitebox);
+				initData();
+			})
+		}
+	}
 
 	// 保存
 	btnSiteSave.onclick=function(){
@@ -183,10 +197,22 @@ function initSiteEvent(body, mask,sitebox,isCreate){
 }
 
 /// 初始化分类编辑框按钮事件
-function initCataEvent(body, mask,catabox,isCreate){
-	var btnCataSave=document.querySelector('.catabox #btnCataSave');
-		btnCataCancel=document.querySelector('.catabox #btnCataCancel');
+function initCataEvent(body, mask, catabox, ele, isCreate){
+	var btnDelete=document.querySelector('.catabox .btn-del'),
+	 	btnCataSave=document.querySelector('.catabox #btnCataSave'),
+		btnCataCancel=document.querySelector('.catabox #btnCataCancel'),
 		btnClose=document.querySelector('.catabox .close');
+
+	// 删除
+	btnDelete.onclick=function(){
+		if(confirm('确定吗？')){
+			chrome.storage.sync.remove(ele.id,function(){
+				body.removeChild(mask);
+				body.removeChild(catabox);
+				initData();
+			})
+		}
+	}
 
 	// 保存
 	btnCataSave.onclick=function(){
@@ -244,6 +270,7 @@ function createSitebox(container, ele, isCreate){
 	sitebox.className='sitebox active';
 	sitebox.innerHTML=
 				'<h3 class="title">'+(isCreate?'新建地址':'编辑地址')+'</h3>'+
+				(isCreate?'':'<a class="btn-del">我要删除这个地址</a>')+
 				'<span class="close">x</span>'+
 				'名称：<input type="text" class="name" placeholder="site name"'+(isCreate?'':'value="'+ele.attributes['data-name'].value+'"')+'/>'+
 				'地址：<input type="text" class="url" placeholder="http://"'+(isCreate?'':'value="'+ele.attributes['data-url'].value+'"')+' />'+
@@ -266,6 +293,7 @@ function createCatabox(container, ele, isCreate){
 	catabox.className='catabox active';
 	catabox.innerHTML=
 				'<h3 class="title">'+(isCreate?'新建分类':'编辑分类')+'</h3>'+
+				(isCreate?'':'<a class="btn-del">我要删除这个分类</a>')+
 				'<span class="close">x</span>'+
 				'<input type="text" class="name" placeholder="catalog name"'+(isCreate?'':'value="'+ele.attributes['data-name'].value+'"')+'/>'+
 				'<div class="button-wrap">'+
