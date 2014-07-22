@@ -40,18 +40,22 @@ function initNav(){
 	}
 }
 
+
+/// 分类的数据
+var cataArr=[];
+
 /// 初始化数据
 function initData(){
 	var siteTableBody=document.querySelector('#tbSite tbody'),
 		ulCatalog=document.querySelector('#ulCatalog');
 	chrome.storage.sync.get(function(result){
-		var cataArr=[],
-			siteArr=[],
+		var siteArr=[],
 			item,
 			i,
 			tr,
 			li;
 
+		cataArr=[];
 		for(i in result){
 			item=result[i];
 			if(item.type==='cata'){
@@ -148,7 +152,7 @@ function initSiteEvent(body, mask, sitebox, ele, isCreate){
 	btnSiteSave.onclick=function(){
 		var name=document.querySelector('.sitebox .name').value,
 			url=document.querySelector('.sitebox .url').value,
-			catalog=document.querySelector('.sitebox .catalog').value,
+			catalog=document.querySelector('#selCatalog').value,
 			id,
 			obj={};
 		// TODO: catalog可以为空，catalog不填算未分类
@@ -167,9 +171,9 @@ function initSiteEvent(body, mask, sitebox, ele, isCreate){
 				type:'site'
 			}
 			chrome.storage.sync.set(obj,function(){
-				// alert('set okay');
 				body.removeChild(mask);
 				body.removeChild(sitebox);
+				initData();
 			})
 
 		}
@@ -185,9 +189,9 @@ function initSiteEvent(body, mask, sitebox, ele, isCreate){
 			};
 
 			chrome.storage.sync.set(obj,function(){
-				// alert('set okay');
 				body.removeChild(mask);
 				body.removeChild(sitebox);
+				initData();
 			})
 		}
 	}
@@ -238,9 +242,9 @@ function initCataEvent(body, mask, catabox, ele, isCreate){
 				type:'cata'
 			}
 			chrome.storage.sync.set(obj,function(){
-				// alert('set okay');
 				body.removeChild(mask);
 				body.removeChild(catabox);
+				initData();
 			})
 
 		}
@@ -257,7 +261,8 @@ function initCataEvent(body, mask, catabox, ele, isCreate){
 				// alert('set okay');
 				body.removeChild(mask);
 				body.removeChild(catabox);
-				ele.innerHTML=name;
+				// ele.innerHTML=name;
+				initData();
 			})
 		}
 	}
@@ -271,7 +276,8 @@ function initCataEvent(body, mask, catabox, ele, isCreate){
 
 /// 创建地址编辑框
 function createSitebox(container, ele, isCreate){
-	var sitebox=document.createElement('div');
+	var sitebox=document.createElement('div'),
+		selValue;
 	sitebox.className='sitebox active';
 	sitebox.innerHTML=
 				'<h3 class="title">'+(isCreate?'新建地址':'编辑地址')+'</h3>'+
@@ -279,7 +285,8 @@ function createSitebox(container, ele, isCreate){
 				'<span class="close">x</span>'+
 				'名称：<input type="text" class="name" placeholder="site name"'+(isCreate?'':'value="'+ele.attributes['data-name'].value+'"')+'/>'+
 				'地址：<input type="text" class="url" placeholder="http://"'+(isCreate?'':'value="'+ele.attributes['data-url'].value+'"')+' />'+
-				'分类：<input type="text" class="catalog" placeholder="catalog"'+(isCreate?'':'value="'+ele.attributes['data-catalog'].value+'"')+' />'+
+				// '分类：<input type="text" class="catalog" placeholder="catalog"'+(isCreate?'':'value="'+ele.attributes['data-catalog'].value+'"')+' />'+
+				'分类：<select id="selCatalog"></select>'+
 				'<div class="button-wrap">'+
 					'<button type="button" class="btn-ok" id="btnSiteSave">保存</button>'+
 					'<button type="button" id="btnSiteCancel">取消</button>'+
@@ -289,7 +296,30 @@ function createSitebox(container, ele, isCreate){
 	sitebox.style.top=getElementOffsetTop(ele)+'px';
 	sitebox.style.left=getElementOffsetLeft(ele)+'px';
 
+	selValue=ele.attributes['data-catalog'];
+	initSelCatalog(selValue?selValue.value:'');
+
 	return sitebox;
+}
+
+/// 初始化地址编辑中的分类选择框
+function initSelCatalog (defaultValue) {
+	var selCatalog=document.querySelector('#selCatalog'),
+		data=cataArr,
+		item,i,
+		option;
+
+	for(i=0;i<data.length;i++){
+		item=data[i];
+		option=document.createElement('option');
+		option.setAttribute('value',item.id);
+		option.innerHTML=item.name;
+		if(item.id===defaultValue){
+			// TODO: 更好的设置布尔属性的方式
+			option.setAttribute('selected','selected');
+		}
+		selCatalog.appendChild(option);
+	}
 }
 
 /// 创建分类编辑框

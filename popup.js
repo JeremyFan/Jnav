@@ -3,7 +3,6 @@ window.onload = function() {
 	ctrlMonitor();
 	setWebsiteData();
 	setBookmarkData();
-
 	bindButtonEvents();
 }
 
@@ -62,6 +61,7 @@ function setWebsiteData() {
 			li=document.createElement('li');
 			a=document.createElement('a');
 			a.innerHTML=item.name;
+			// TODO: icon加载失败时使用默认icon代替
 			a.style.backgroundImage='url('+item.url+'/favicon.ico)';
 			li.appendChild(a);
 			ul.appendChild(li);

@@ -1,39 +1,41 @@
 <!DOCTYPE html>
-<head>
-	<meta charset="utf-8">
-	<link rel="stylesheet" href="option.css">
+<html>
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="option.css">
 
-</head>
-<body>
-	<div class="main">
-		<ul class="nav">
-			<li class="a b active"><a href="#tabSite">网址</a></li>
-			<li><a href="#tabCatalog">分类</a></li>
-		</ul>
-		<!--地址-->
-		<div id="tabSite" class="tab active">
-			<button type="button" id="btnSiteCreate">新建地址</button>
-			<!--TODO: 固定表头的滚动-->
-			<table id="tbSite">
-				<thead>
-					<tr>
-						<td>名称</td>
-						<td>地址</td>
-						<td>分类</td>
-					</tr>
-				</thead>
-				<tbody>
-				</tbody>
-			</table>
-		</div>
-		<!-- 分类-->
-		<div id="tabCatalog" class="tab">
-			<button type="button" id="btnCataCreate">新建分类</button>
-			<ul id="ulCatalog">
+	</head>
+	<body>
+		<div class="main">
+			<ul class="nav">
+				<li class="a b active"><a href="#tabSite">网址</a></li>
+				<li><a href="#tabCatalog">分类</a></li>
 			</ul>
+			<!--地址-->
+			<div id="tabSite" class="tab active">
+				<button type="button" id="btnSiteCreate">新建地址</button>
+				<!--TODO: 固定表头的滚动-->
+				<table id="tbSite">
+					<thead>
+						<tr>
+							<td>名称</td>
+							<td>地址</td>
+							<td>分类</td>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+			<!-- 分类-->
+			<div id="tabCatalog" class="tab">
+				<button type="button" id="btnCataCreate">新建分类</button>
+				<ul id="ulCatalog">
+				</ul>
+			</div>
 		</div>
-	</div>
 
-	<script type="text/javascript" src="base.js"></script>
-	<script type="text/javascript" src="option.js"></script>
-</body>
+		<script type="text/javascript" src="base.js"></script>
+		<script type="text/javascript" src="option.js"></script>
+	</body>
+</html>

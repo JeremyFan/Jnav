@@ -153,16 +153,19 @@ input[type=text]{
 
 .sitebox .name,
 .sitebox .url,
-.sitebox .catalog,
 .catabox .name{
 	width:200px;
 	height:30px;
 }
 
 .sitebox .name,
-.sitebox .url,
-.sitebox .catalog{
+.sitebox .url{
 	margin:5px 0;
+}
+
+#selCatalog{
+	width:204px;
+	height:36px;
 }
 
 .sitebox .button-wrap,
@@ -212,6 +215,11 @@ input[type=text]{
 #tbSite>tbody>tr:nth-child(2n)>td{
 	background-color: #f6f6f6;
 }
+
+#tbSite>tbody>tr:hover>td{
+	background-color: #eee;
+}
+
 
 
 #ulCatalog{
