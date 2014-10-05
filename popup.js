@@ -9,6 +9,8 @@ window.onload = function() {
 
 /// 记录当前ctrl键是否被按下
 var isPressCtrl = false;
+/// 记录当前的键盘输入
+var currentInput = 0;
 /// 监听ctrl键
 function ctrlMonitor() {
 	var body = document.getElementById('b');
@@ -21,6 +23,26 @@ function ctrlMonitor() {
 	body.onkeyup = function(e) {
 		if (e.ctrlKey)
 			isPressCtrl = false;
+	}
+
+	body.onkeypress=function(e){
+		var key=e.which-48,
+			select;
+		if(currentInput===0){
+			if(key>=1&&key<=9){
+				currentInput=key;
+			}
+		}
+		else if(currentInput>=1&&currentInput<=9){
+			var catalogs=document.querySelectorAll('#website ul');
+			var catalog=catalogs[currentInput-1];
+			if(typeof catalog!=='undefined'){
+				var sites=catalog.querySelectorAll('li');
+				var site=sites[key-1];
+				createNewTab(site.getAttribute('data-url'));
+			}
+			currentInput=0;
+		}
 	}
 }
 
@@ -59,6 +81,7 @@ function setWebsiteData() {
 			item=siteArr[i];
 			ul=document.querySelector('#'+item.catalog);
 			li=document.createElement('li');
+			li.setAttribute('data-url',item.url);
 			a=document.createElement('a');
 			a.innerHTML=item.name;
 			// TODO: icon加载失败时使用默认icon代替
@@ -66,17 +89,20 @@ function setWebsiteData() {
 			li.appendChild(a);
 			ul.appendChild(li);
 
-			li.onclick=(function(url){
-				return function(){
-					chrome.tabs.create({
-						url:url,
-						// isPressCtrl控制打开的tab是否为活动页
-						active: !isPressCtrl
-					})
-				}
-			})(item.url);
+			li.onclick=function(){
+				var url=this.getAttribute('data-url');
+				createNewTab(url);
+			}
 		}
 
+	})
+}
+
+function createNewTab(url){
+	chrome.tabs.create({
+		url:url,
+		// isPressCtrl控制打开的tab是否为活动页
+		active: !isPressCtrl
 	})
 }
 
