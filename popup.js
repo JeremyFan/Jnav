@@ -39,9 +39,11 @@ function ctrlMonitor() {
 			if(typeof catalog!=='undefined'){
 				var sites=catalog.querySelectorAll('li');
 				var site=sites[key-1];
-				createNewTab(site.getAttribute('data-url'));
+				if(typeof site!=='undefined'){
+					createNewTab(site.getAttribute('data-url'));
+					currentInput=0;
+				}
 			}
-			currentInput=0;
 		}
 	}
 }
