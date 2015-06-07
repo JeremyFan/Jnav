@@ -193,4 +193,4 @@ function bindButtonEvents(){
 			website.removeClass('f-hide');
 		}
 	}
-}
+} 
