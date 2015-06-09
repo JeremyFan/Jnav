@@ -46,7 +46,7 @@ function ctrlMonitor() {
 			}
 		}
 	}
-}
+} 
 
 /// 遍历数据，设置网址
 function setWebsiteData() {
