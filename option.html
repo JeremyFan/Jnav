@@ -14,6 +14,9 @@
 			<!--地址-->
 			<div id="tabSite" class="tab active">
 				<button type="button" id="btnSiteCreate">新建地址</button>
+				<a id="export" download="jnav-options.txt" href="data:text/txt;charset=utf-8, error">导出配置</a>
+				<a id="import" href="#">导入配置</a>
+				<input id="import-file" type="file" style="visibility:hidden;">
 				<!--TODO: 固定表头的滚动-->
 				<table id="tbSite">
 					<thead>

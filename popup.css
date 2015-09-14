@@ -7,7 +7,7 @@ body{margin:10px;width: 500px;height: 320px;}
 .g-head span{color:#000;}
 .g-head .u-btn{float:right;width:50px;cursor:pointer;}
 .g-head .u-btn:hover{color:#2F79E7;}
-.g-main{margin:0px;}
+.g-main{margin:0px;padding-top:10px;}
 /*.g-main .m-ft{height:50px;text-align: center;color:black;}
 .g-main .m-ft span{line-height: 50px;cursor:pointer;}
 .g-main .m-ft span:hover{color: #2F79E7;}*/
@@ -18,18 +18,21 @@ body{margin:10px;width: 500px;height: 320px;}
 #website li:hover{background-color:#f8f8f8;}
 #website a{color: black;display: inline-block;width: 125px;height: 30px;padding-left: 25px;line-height: 30px;cursor: pointer;background:no-repeat left;background-size:20px 20px;}
 
+/*
 #bm-tree,#bm-tree ul{padding:0;margin:0;}
 #bm-tree li{margin-left:20px;list-style: none;line-height:25px;cursor:pointer;}
 #bm-tree .bm-atom{color:#000;}
+*/
 
 
 /*****动画效果*****/
-	.a-fadein{-webkit-animation:0.5s ease-out backwards;}
+/*	.a-fadein{-webkit-animation:0.5s ease-out backwards;}
 	.a-fadeout{-webkit-animation:0.5s ease-in forwards;}
-	/* 淡入 */
+
 	.a-fadein{-webkit-animation-name:fadein;-moz-animation-name:fadein;-ms-animation-name:fadein;animation-name:fadein;}
-	/* 淡入 */
+
 	@-webkit-keyframes fadein{
 	    0%{opacity:1;-webkit-transform:translateX(-200px);}
 	    100%{opacity:1;-webkit-transform:translateX(0);}
 	}
+	*/

@@ -7,12 +7,24 @@ window.onload=function(){
 /// 初始化页面按钮事件
 function initButtonEvent(){
 	var btnSiteCreate=document.querySelector('#btnSiteCreate'),
-		btnCataCreate=document.querySelector('#btnCataCreate');
+		btnCataCreate=document.querySelector('#btnCataCreate'),
+		btnExport=document.querySelector('#export'),
+		btnImport=document.querySelector('#import'),
+		importFile=document.querySelector('#import-file');
 	btnSiteCreate.onclick=function(){
 		showBox(this, BoxType.Sitebox);
 	}
 	btnCataCreate.onclick=function(){
 		showBox(this, BoxType.Catabox);
+	}
+	btnExport.onclick=function(){
+		exportOptionFile(this);
+	}
+	btnImport.onclick=function(){
+		importOptionFile(this);
+	}
+	importFile.onchange=function(){
+		setImportData(this);
 	}
 }
 
@@ -49,6 +61,7 @@ function initData(){
 	var siteTableBody=document.querySelector('#tbSite tbody'),
 		ulCatalog=document.querySelector('#ulCatalog');
 	chrome.storage.sync.get(function(result){
+		window.result=result;
 		var siteArr=[],
 			item,
 			i,
@@ -364,4 +377,40 @@ function getElementOffsetLeft(ele){
 		current=current.offsetParent;
 	}
 	return actualLeft;
+}
+
+function exportOptionFile(a){
+	var date=formateDate(new Date),
+		type='data:text/txt;',
+		data='charset=utf-8,'+JSON.stringify(window.result);
+
+	a.download="jnav-options-"+date+'.txt';
+	a.href=type+data;
+}
+
+function formateDate(date){
+	if(date){
+		return [date.getFullYear(),date.getMonth(),date.getDate()].join('');
+	}
+}
+
+function importOptionFile(a){
+	if(confirm('导入配置会覆盖删除现有网址和分类，确定要导入吗？')){
+		var input=document.querySelector('#import-file');
+		input.click();	
+	}
+}
+
+function setImportData(input){
+	var reader=new FileReader;
+	reader.onload=function(e,a,b,c){
+		var result=JSON.parse(e.target.result);
+		chrome.storage.sync.clear();
+		chrome.storage.sync.set(result,initData);
+	}
+	var input=document.querySelector('#import-file');
+	if(input.files.length){
+		file=input.files[0];
+		reader.readAsText(file);
+	}
 }

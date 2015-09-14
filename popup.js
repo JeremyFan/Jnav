@@ -2,7 +2,7 @@ window.onload = function() {
 	// addPrototypeMethods();
 	ctrlMonitor();
 	setWebsiteData();
-	setBookmarkData();
+	// setBookmarkData();
 	bindButtonEvents();
 }
 
@@ -108,6 +108,8 @@ function createNewTab(url){
 	})
 }
 
+
+/*
 function setBookmarkData(){
 	var content=$('#bookmark');
 	var bmTree;
@@ -117,6 +119,7 @@ function setBookmarkData(){
 		});
 	});
 }
+
 
 function processNode(item) {
 	if (item.children) {
@@ -194,3 +197,5 @@ function bindButtonEvents(){
 		}
 	}
 }
+
+*/
