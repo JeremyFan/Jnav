@@ -3,7 +3,7 @@ window.onload = function() {
 	ctrlMonitor();
 	setWebsiteData();
 	// setBookmarkData();
-	bindButtonEvents();
+	// bindButtonEvents();
 }
 
 
@@ -87,7 +87,8 @@ function setWebsiteData() {
 			a=document.createElement('a');
 			a.innerHTML=item.name;
 			// TODO: icon加载失败时使用默认icon代替
-			a.style.backgroundImage='url('+item.url+'/favicon.ico)';
+			// a.style.backgroundImage='url('+item.url+'/favicon.ico)';
+			a.style.backgroundImage='url('+item.url.replace(/(\.com|cn|net|me|org|name|tv|co|info)(\/.*|$)/, '$1/favicon.ico')+')';
 			li.appendChild(a);
 			ul.appendChild(li);
 
