@@ -55,7 +55,7 @@ function setWebsiteData() {
 		 	cataArr=[],
 			siteArr=[],
 			ul, span,
-			li, a,
+			li, a, img,
 			item,
 			i;
 
@@ -87,8 +87,14 @@ function setWebsiteData() {
 			a=document.createElement('a');
 			a.innerHTML=item.name;
 			// TODO: icon加载失败时使用默认icon代替
-			// a.style.backgroundImage='url('+item.url+'/favicon.ico)';
-			a.style.backgroundImage='url('+item.url.replace(/(\.com|cn|net|me|org|name|tv|co|info)(\/.*|$)/, '$1/favicon.ico')+')';
+			a.addClass('site-item');
+			img=document.createElement('img');
+			img.addClass('favicon');
+			img.src=item.url.replace(/(\.com|cn|net|me|org|name|tv|co|info)(\/.*|$)/, '$1/favicon.ico');
+			img.onerror=function(){
+				this.src='images/logo_chrome.png';
+			}
+			a.appendChild(img);
 			li.appendChild(a);
 			ul.appendChild(li);
 
