@@ -2,11 +2,14 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<link rel="stylesheet" href="option.css">
-
+		<link rel="stylesheet" href="dist/styles/option.css">
 	</head>
 	<body>
 		<div class="main">
+			<div class="export-wrapper">
+				<a id="export" download="jnav-options.txt" href="data:text/txt;charset=utf-8, error">导出配置</a>
+				<a id="import" href="#">导入配置</a>
+			</div>
 			<ul class="nav">
 				<li class="a b active"><a href="#tabSite">网址</a></li>
 				<li><a href="#tabCatalog">分类</a></li>
@@ -14,8 +17,6 @@
 			<!--地址-->
 			<div id="tabSite" class="tab active">
 				<button type="button" id="btnSiteCreate">新建地址</button>
-				<a id="export" download="jnav-options.txt" href="data:text/txt;charset=utf-8, error">导出配置</a>
-				<a id="import" href="#">导入配置</a>
 				<input id="import-file" type="file" style="visibility:hidden;">
 				<!--TODO: 固定表头的滚动-->
 				<table id="tbSite">
@@ -37,8 +38,7 @@
 				</ul>
 			</div>
 		</div>
-
-		<script type="text/javascript" src="base.js"></script>
-		<script type="text/javascript" src="option.js"></script>
+		<script type="text/javascript" src="dist/scripts/base.js"></script>
+		<script type="text/javascript" src="dist/scripts/option.js"></script>
 	</body>
 </html>

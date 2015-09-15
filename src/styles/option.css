@@ -26,6 +26,11 @@ input[type=text]{
 	border:1px solid #bbb;
 }
 
+.export-wrapper{
+	/*position: absolute;*/
+	float:right;
+}
+
 .nav{
 	height:30px;
 	margin:0;

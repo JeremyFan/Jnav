@@ -1,0 +1,1 @@
+function $(s){return s=s.replace("#",""),document.getElementById(s)}!function(){HTMLElement.prototype.addClass=function(s){this.classList.length?this.className+=" "+s:this.className+=s},HTMLElement.prototype.removeClass=function(s){this.classList[0]===s?this.className=this.className.replace(s,""):this.className=this.className.replace(" "+s,"")}}();
