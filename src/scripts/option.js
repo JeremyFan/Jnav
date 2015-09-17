@@ -390,7 +390,7 @@ function exportOptionFile(a){
 
 function formateDate(date){
 	if(date){
-		return [date.getFullYear(),date.getMonth(),date.getDate()].join('');
+		return [date.getFullYear(),date.getMonth()+1,date.getDate()].join('');
 	}
 }
 
