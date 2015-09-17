@@ -1,0 +1,23 @@
+{
+  "name": "jnav",
+  "version": "2.0.0",
+  "description": "navigation for chrome",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "gulp-uglify": "^1.4.1",
+    "gulp-htmlmin": "^1.1.4",
+    "gulp-minify-css": "^1.2.1",
+    "htmlmin": "^0.0.4"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JeremyFan/Jnav.git"
+  },
+  "author": "Jeremy Fan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JeremyFan/Jnav/issues"
+  },
+  "homepage": "https://github.com/JeremyFan/Jnav#readme"
+}
