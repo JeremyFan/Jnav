@@ -16,7 +16,6 @@ gulp.task('cssminify', function() {
 		.pipe(gulp.dest('./dist/styles'));
 });
 
-/*
 gulp.task('htmlminify', function() {
 	gulp.src('./src/*.html')
 		.pipe(htmlminify({
@@ -25,8 +24,14 @@ gulp.task('htmlminify', function() {
 		}))
 		.pipe(gulp.dest('./dist'));
 });
-*/
 
-gulp.task('default', function() {
-	gulp.run('jsminify', 'cssminify');
-});
+gulp.task('manifest', function(){
+	gulp.src('./src/manifest.json')
+		.pipe(gulp.dest('./dist'));
+})
+
+// gulp.task('default', function() {
+// 	gulp.run('jsminify', 'cssminify', 'htmlminify', 'manifest');
+// });
+
+gulp.task('default',['jsminify', 'cssminify', 'htmlminify', 'manifest']);
