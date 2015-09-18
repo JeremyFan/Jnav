@@ -1,6 +1,6 @@
 Jnav是一款简洁的chrome导航插件。
 
-![Alt text](./1442558645070.png)
+![Alt text](https://raw.githubusercontent.com/JeremyFan/Jnav/master/doc-matter/jnav.png "Jnav截图")
 
 ### 特点
 - 不需要打开新页面
