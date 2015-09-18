@@ -34,4 +34,4 @@ gulp.task('manifest', function(){
 // 	gulp.run('jsminify', 'cssminify', 'htmlminify', 'manifest');
 // });
 
-gulp.task('default',['jsminify', 'cssminify', 'htmlminify', 'manifest']);
+gulp.task('pub',['jsminify', 'cssminify', 'htmlminify', 'manifest']);

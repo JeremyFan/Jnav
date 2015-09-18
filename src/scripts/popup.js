@@ -90,7 +90,7 @@ function setWebsiteData() {
 			a.addClass('site-item');
 			img=document.createElement('img');
 			img.addClass('favicon');
-			img.src=item.url.replace(/(\.com|cn|net|me|org|name|tv|co|info)(\/.*|$)/, '$1/favicon.ico');
+			img.src=item.url.replace(/(\.com|cn|net|fm|me|org|name|tv|co|info)(\/.*|$)/, '$1/favicon.ico');
 			img.onerror=function(){
 				this.src='images/logo_chrome.png';
 			}
