@@ -193,7 +193,8 @@ input[type=text]{
 }
 
 #tbSite{
-	width:500px;
+	table-layout: fixed;
+	width:580px;
 	margin-top:10px;
 	border-spacing: 0;
 	border-collapse: collapse;
@@ -203,6 +204,18 @@ input[type=text]{
 #tbSite tr td{
 	height:30px;
 	text-align: center;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+#tbSite tr td:nth-child(1){
+	width:20%;
+}
+#tbSite tr td:nth-child(2){
+	width:60%;
+}
+#tbSite tr td:nth-child(3){
+	width:20%;
 }
 
 #tbSite>thead>tr>td{

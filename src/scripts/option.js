@@ -87,7 +87,7 @@ function initData(){
 			tr.setAttribute('data-name',item.name);
 			tr.setAttribute('data-url',item.url);
 			tr.setAttribute('data-catalog',item.catalog);
-			tr.innerHTML='<td>'+item.name+'</td><td>'+item.url+'</td><td>'+item.catalog+'</td>';
+			tr.innerHTML='<td title="'+item.name+'">'+item.name+'</td><td title="'+item.url+'">'+item.url+'</td><td title="'+item.catalog+'">'+item.catalog+'</td>';
 			tr.onclick=function(){
 				showBox(this, BoxType.Sitebox);
 			}

@@ -35,6 +35,10 @@ npm install
 	option.html        # 插件选项
 	popup.html         # 插件本身
 ```
+#### 开发
+```
+gulp dev
+```
 #### 打包发布
 ```
 gulp pub

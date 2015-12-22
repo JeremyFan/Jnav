@@ -28,10 +28,19 @@ gulp.task('htmlminify', function() {
 gulp.task('manifest', function(){
 	gulp.src('./src/manifest.json')
 		.pipe(gulp.dest('./dist'));
-})
+});
+
+gulp.task('watch', function(){
+	gulp.watch('./src/*.html', ['htmlminify']);
+	gulp.watch('./src/styles/*.css', ['cssminify']);
+	gulp.watch('./src/scripts/*.js', ['jsminify']);
+});
 
 // gulp.task('default', function() {
 // 	gulp.run('jsminify', 'cssminify', 'htmlminify', 'manifest');
 // });
 
+// 发布
 gulp.task('pub',['jsminify', 'cssminify', 'htmlminify', 'manifest']);
+// 开发
+gulp.task('dev',['watch']);
